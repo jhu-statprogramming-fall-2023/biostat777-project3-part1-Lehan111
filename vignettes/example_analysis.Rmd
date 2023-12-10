@@ -1,0 +1,104 @@
+---
+title: "Data Analysis"
+author: "Lehan Xiao"
+date: Dec 2023
+ouptput: pdf_document
+---
+
+# Introduction
+
+In this analysis, we want to learn about the age and gender distribution of this dataset.
+
+The original data comes from tidyverse: [saferparks](https://github.com/rfordatascience/tidytuesday/blob/master/data/2019/2019-09-10/saferparks.csv) and [tx_injuries](https://github.com/rfordatascience/tidytuesday/blob/master/data/2019/2019-09-10/tx_injuries.csv).
+
+You can check data dictionary for the data at [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-09-10#tx_injuriescsv).
+
+# Data analysis
+
+First, we load the local data into R.
+
+```{r}
+tx_injuries <- readr::read_csv("../data/tx_injuries.csv")
+safer_parks <- readr::read_csv("../data/safer_parks.csv")
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(lubridate)
+library(purrr)
+library(survival)
+safer_parks <- safer_parks %>% drop_na(num_injured)
+year <- safer_parks$acc_date |>
+  map(.f = ~as.Date(.x, format = "%m/%d/%Y")) |>
+  map_dbl(.f = ~year(.x))
+safer_parks <- mutate(safer_parks, year)
+year_trend <- safer_parks %>% group_by(year) %>% summarise(n = sum(num_injured))
+```
+
+```{r}
+print(ggplot(year_trend, aes(x = year, y = n)) +
+  geom_line() +
+  labs(title = "Anual number of injuries", x = "Year", y = "Number of injuries") +
+  theme_minimal()
+)
+```
+
+The graph shows that it has the highest number of injuries at the year of 2015.
+
+```{r}
+tx_injuries <- tx_injuries %>% drop_na(age)
+tx_injuries <- tx_injuries %>% drop_na(gender)
+tx_injuries <- tx_injuries %>%
+  filter(!(age %in% c("n/a", "na", "n.a")))
+tx_injuries <- tx_injuries %>%
+  mutate(gender = toupper(gender)) %>%
+  filter(!(gender %in% c("n/a", "na", "n.a", "N/A", "NA")))
+year1 <- tx_injuries$injury_date |>
+  map(.f = ~as.Date(.x, format = "%m/%d/%Y")) |>
+  map_dbl(.f = ~year(.x))
+tx_injuries <- mutate(tx_injuries, year1)
+gender_trend <- tx_injuries %>% group_by(gender) %>% summarise(n = n())
+ggplot(gender_trend, aes(x = gender, y = n)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(title = "Number of injuries", x = "Gender", y = "Number of injuries") +
+  theme_minimal()
+```
+
+It seems that females get injured more often than males.
+
+```{r}
+comparison <- data.frame(tx_injuries)
+comparison$age <- as.numeric(comparison$age)
+comparison <- comparison %>% drop_na(year1)
+ggplot(comparison, aes(x = gender, y = age)) +
+  geom_boxplot(fill = "lightblue", color = "black", width = 0.6) +
+  labs(title = "Comparison between males and females", x = "Gender", y = "Age distribution") +
+  theme_minimal() +
+  facet_wrap(~year1, scales = "free_y")
+
+```
+
+The age distributions between males and females are different at each year. In 2013 and 2014, more younger males get injured than females. And situation got opposite in 2015.
+
+```{r}
+comparison$event <- 1
+survfit(Surv(year1, event) ~ gender, data = comparison)
+```
+
+# Conclusion
+
+The numbers of injuries varies from years and gender.
+
+# Functions
+
+Functions being used:
+
+`drop_na()`, `mutate()`, `year()`, `group_by`, `summarise`, `filter`
+
+`ggplot2`: `geom_line()`, `geom_bar()`, `geom_boxplot`
+
+`purrr`: `map()`, `map_dbl()`
+
+`survival`: `survfit()`. `Surv()`

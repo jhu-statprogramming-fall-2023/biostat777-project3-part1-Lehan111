@@ -1,0 +1,125 @@
+url: ~
+template:
+  bootstrap: 5
+  bootswatch: cerulean
+
+reference:
+- title: "Survival"
+  desc: "Functions for survival analysis."
+  contents:
+  - starts_with("surv")
+  - starts_with("Surv")
+  - aareg
+  - aeqSurv
+  - aggregate.survfit
+  - agreg.fit
+  - aml
+  - anova.coxph
+  - attrassign
+  - basehaz
+  - bladder
+  - blogit
+  - brier
+  - cch
+  - cgd
+  - cgd0
+  - cipoisson
+  - clogit
+  - cluster
+  - colon
+  - concordance
+  - concordancefit
+  - cox.zph
+  - coxph
+  - coxph.control
+  - coxph.detail
+  - coxph.object
+  - coxph.wtest
+  - coxphms.object
+  - coxsurv.fit
+  - diabetic
+  - dsurvreg
+  - finegray
+  - flchain
+  - frailty
+  - gbsg
+  - heart
+  - hoel
+  - is.ratetable
+  - kidney
+  - levels.Surv
+  - lines.survfit
+  - logLik.coxph
+  - logan
+  - lung
+  - mgus
+  - mgus2
+  - model.frame.coxph
+  - model.matrix.coxph
+  - myeloid
+  - myeloma
+  - nafld
+  - neardate
+  - nsk
+  - nwtco
+  - ovarian
+  - pbc
+  - pbcseq
+  - plot.aareg
+  - plot.cox.zph
+  - plot.survfit
+  - predict.coxph
+  - predict.survreg
+  - print.aareg
+  - print.summary.coxph
+  - print.summary.survexp
+  - print.summary.survfit
+  - print.survfit
+  - pseudo
+  - pspline
+  - pyears
+  - quantile.survfit
+  - ratetable
+  - ratetableDate
+  - rats
+  - rats2
+  - reliability
+  - residuals.coxph
+  - residuals.survfit
+  - residuals.survreg
+  - retinopathy
+  - rhDNase
+  - ridge
+  - rotterdam
+  - royston
+  - rttright
+  - solder
+  - stanford2
+  - statefig
+  - strata
+  - summary.aareg
+  - summary.coxph
+  - summary.pyears
+  - summary.survexp
+  - summary.survfit
+  - tcut
+  - tmerge
+  - tobin
+  - transplant
+  - udca
+  - untangle.specials
+  - uspop2
+  - vcov.coxph
+  - veteran
+  - xtfrm.Surv
+  - yates
+  - yates_setup
+
+articles:
+- title: ridge
+  contents:
+  - ridge
+
+- title: Data analysis
+  contents:
+  - example_analysis

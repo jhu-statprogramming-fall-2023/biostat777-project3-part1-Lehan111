@@ -1,0 +1,6 @@
+^demo\.pkgdown\.Rproj$
+^\.Rproj\.user$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^survival$
